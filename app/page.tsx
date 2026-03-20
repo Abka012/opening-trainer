@@ -269,7 +269,7 @@ export default function DashboardPage() {
                             </div>
                           </div>
                           <Badge variant="secondary" className="shrink-0">
-                            {opening.practiceStats.accuracy > 0
+                            {opening.practiceStats.attempts > 0
                               ? `${Math.round(
                                   (opening.practiceStats.correct /
                                     opening.practiceStats.attempts) *

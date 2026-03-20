@@ -2,7 +2,8 @@
 
 import { cn } from '@/lib/utils';
 import type { ChessMove, MoveAnnotation } from '@/lib/types';
-import { getMoveNumber, isWhiteMove } from '@/lib/chess-utils';
+import { isWhiteMove } from '@/lib/chess-utils';
+import { memo } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   DropdownMenu,
@@ -41,7 +42,7 @@ function MoveAnnotationBadge({ annotation }: { annotation?: MoveAnnotation }) {
   );
 }
 
-export function MoveList({
+function MoveListComponent({
   moves,
   currentMoveIndex,
   onMoveClick,
@@ -140,7 +141,6 @@ export function MoveList({
           </div>
         ))}
         
-        {/* Starting position option */}
         <div className="mt-2 border-t border-border pt-2">
           <button
             onClick={() => onMoveClick(-1)}
@@ -156,3 +156,11 @@ export function MoveList({
     </ScrollArea>
   );
 }
+
+export const MoveList = memo(MoveListComponent, (prev, next) => {
+  return (
+    prev.moves.length === next.moves.length &&
+    prev.currentMoveIndex === next.currentMoveIndex &&
+    prev.editable === next.editable
+  );
+});

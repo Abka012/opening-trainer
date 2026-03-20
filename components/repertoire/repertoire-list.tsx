@@ -2,8 +2,8 @@
 
 import { cn } from '@/lib/utils';
 import type { Opening, RepertoireFilter } from '@/lib/types';
-import { filterOpenings, getAllTags } from '@/lib/repertoire-store';
-import { useState, useEffect, useMemo } from 'react';
+import { getAllTags } from '@/lib/repertoire-store';
+import { useState, useEffect, useMemo, memo, useCallback } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -26,7 +26,7 @@ interface RepertoireListProps {
   onCreateNew: () => void;
 }
 
-export function RepertoireList({
+function RepertoireListComponent({
   openings,
   selectedId,
   onSelect,
@@ -222,3 +222,11 @@ export function RepertoireList({
     </div>
   );
 }
+
+export const RepertoireList = memo(RepertoireListComponent, (prev, next) => {
+  return (
+    prev.openings.length === next.openings.length &&
+    prev.selectedId === next.selectedId &&
+    prev.openings === next.openings
+  );
+});
